@@ -1,24 +1,27 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import getRandomImages from "./the-moving-frame-functions";
+import { useImageContext } from "./image-provider";
+import Image from "next/image";
 
 function selectRandomInterval(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export default function RandomImageComponent({ baseImageComponent }: { baseImageComponent: any }) {
-    const [image, setImage] = useState(baseImageComponent);
+    const [imagePath, setImagePath] = useState<string>(baseImageComponent);
+    const { swapImage } = useImageContext();
     const interval = selectRandomInterval(10, 100);
 
     useEffect(() => {
-        const timer = setInterval(async () => {
-            const nextImage = (await getRandomImages(1))[0];
-            setImage(nextImage);
+        const timer = setInterval(() => {
+            const nextPath = swapImage(imagePath);
+            setImagePath(nextPath);
         }, interval * 1000);
         return () => clearInterval(timer);
-    }, []);
+    }, [imagePath, interval, swapImage]);
+
     return (
-        image
+        <Image key={imagePath} src={imagePath} alt={imagePath} width={400} height={400} className="rounded-lg" />
     );
 }

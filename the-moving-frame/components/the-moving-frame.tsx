@@ -1,13 +1,17 @@
 import RandomImageComponent from "./random-image-component";
-import getRandomImages from "./the-moving-frame-functions";
+import { ImageProvider } from "./image-provider";
 
 export default async function TheMovingFrame() {
-    const baseImages = await getRandomImages(6);
+    const { getRandomImagePaths } = await import("../app/actions");
+    const baseImages = await getRandomImagePaths(6);
+
     return (
-        <div className="grid grid-cols-3 gap-4">
-            {baseImages.map((image, index) => (
-                <RandomImageComponent key={index} baseImageComponent={image} />
-            ))}
-        </div>
+        <ImageProvider initialImages={baseImages}>
+            <div className="grid grid-cols-3 gap-4">
+                {baseImages.map((image, index) => (
+                    <RandomImageComponent key={index} baseImageComponent={image} />
+                ))}
+            </div>
+        </ImageProvider>
     );
 }

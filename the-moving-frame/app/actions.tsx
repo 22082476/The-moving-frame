@@ -7,11 +7,12 @@ export async function getRandomImagePaths(amount: number) {
     const directory = path.join(process.cwd(), "public/images");
     const files = fs.readdirSync(directory).filter(file => file.endsWith(".jpeg"));
 
-    const randomImages: string[] = [];
-    for (let i = 0; i < amount; i++) {
-        const randomIndex = Math.floor(Math.random() * files.length);
-        randomImages.push(files[randomIndex]);
-    }
+    const shuffled = files.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, amount).map(file => `/images/${file}`);
+}
 
-    return randomImages;
+export async function getAllImagePaths() {
+    const directory = path.join(process.cwd(), "public/images");
+    const files = fs.readdirSync(directory).filter(file => file.endsWith(".jpeg"));
+    return files.map(file => `/images/${file}`);
 }
