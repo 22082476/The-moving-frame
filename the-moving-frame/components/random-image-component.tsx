@@ -12,7 +12,7 @@ function selectRandomInterval(min: number, max: number) {
 export default function RandomImageComponent({ baseImageComponent }: { baseImageComponent: any }) {
     const [imagePath, setImagePath] = useState<string>(baseImageComponent);
     const { swapImage } = useImageContext();
-    const interval = selectRandomInterval(5, 10);
+    const interval = selectRandomInterval(5, 20);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -25,13 +25,14 @@ export default function RandomImageComponent({ baseImageComponent }: { baseImage
     return (
         <AnimatePresence mode="wait">
             <motion.div
+                className="inline-block relative w-[350px] h-[350px]"
                 key={imagePath}
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
             >
-                <Image src={imagePath} alt={imagePath} width={400} height={400} className="rounded-lg" />
+                <Image src={imagePath} alt={imagePath} fill className="rounded-lg block" />
             </motion.div>
         </AnimatePresence>
     );

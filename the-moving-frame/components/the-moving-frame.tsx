@@ -7,10 +7,12 @@ export default async function TheMovingFrame() {
 
     return (
         <ImageProvider initialImages={baseImages}>
-            <div className="grid grid-cols-3 gap-4">
-                {baseImages.map((image, index) => (
-                    <RandomImageComponent key={index} baseImageComponent={image} />
-                ))}
+            <div className="flex justify-center items-center align-center p-2">
+                <div className="grid grid-cols-3 gap-x-10 gap-y-4">
+                    {baseImages.map((image, index) => (
+                        <RandomImageComponent key={index} baseImageComponent={image} />
+                    ))}
+                </div>
             </div>
         </ImageProvider>
     );
