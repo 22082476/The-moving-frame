@@ -12,7 +12,7 @@ function selectRandomInterval(min: number, max: number) {
 export default function RandomImageComponent({ baseImageComponent }: { baseImageComponent: any }) {
     const [imagePath, setImagePath] = useState<string>(baseImageComponent);
     const { swapImage } = useImageContext();
-    const interval = selectRandomInterval(5, 50);
+    const interval = selectRandomInterval(10, 50);
 
     useEffect(() => {
         const timer = setInterval(() => {
