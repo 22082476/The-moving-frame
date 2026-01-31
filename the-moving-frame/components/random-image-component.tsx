@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useImageContext } from "./image-provider";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 
 function selectRandomInterval(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -11,7 +12,7 @@ function selectRandomInterval(min: number, max: number) {
 export default function RandomImageComponent({ baseImageComponent }: { baseImageComponent: any }) {
     const [imagePath, setImagePath] = useState<string>(baseImageComponent);
     const { swapImage } = useImageContext();
-    const interval = selectRandomInterval(10, 100);
+    const interval = selectRandomInterval(5, 10);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -22,6 +23,16 @@ export default function RandomImageComponent({ baseImageComponent }: { baseImage
     }, [imagePath, interval, swapImage]);
 
     return (
-        <Image key={imagePath} src={imagePath} alt={imagePath} width={400} height={400} className="rounded-lg" />
+        <AnimatePresence mode="wait">
+            <motion.div
+                key={imagePath}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 1.2, ease: "easeInOut" }}
+            >
+                <Image src={imagePath} alt={imagePath} width={400} height={400} className="rounded-lg" />
+            </motion.div>
+        </AnimatePresence>
     );
 }
